@@ -30,6 +30,7 @@ def get_Motti_results(fm, latS, lonS):
     print (fm)
     #import sys; sys.exit()
     #motti = pickle.load(open(fm, 'rb'))
+    import pickle
     with open(fm, 'rb') as f:
         u = pickle._Unpickler(f)
         u.encoding = 'latin1'
