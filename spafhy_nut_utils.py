@@ -29,12 +29,12 @@ def get_Motti_results(fm, latS, lonS):
     print ('****** Reading predefined Motti results*****************')    
     print (fm)
     #import sys; sys.exit()
-    #motti = pickle.load(open(fm, 'rb'))
-    import pickle
-    with open(fm, 'rb') as f:
-        u = pickle._Unpickler(f)
-        u.encoding = 'latin1'
-        motti = u.load()
+    motti = pickle.load(open(fm, 'rb'))
+    #import pickle
+    #with open(fm, 'rb') as f:
+    #    u = pickle._Unpickler(f)
+    #    u.encoding = 'latin1'
+    #    motti = u.load()
     minDist=1e5; mClose = None    
     for m in motti.keys():
         d = ((motti[m]['Lat'] - latS/1000.)**2 + (motti[m]['Lon'] - lonS/1000.)**2)**0.5
