@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pylab as plt
 from scipy import optimize
 #from scipy.misc import derivative
-from scipy.optimize import derivative
+#from scipy.optimize import derivative
 import xarray as xr
 #import Spathy_resp as stand
 #import Spathy_utils
@@ -94,15 +94,15 @@ def get_measured_data(f,fc,start_date,end_date):
 
     return mit, mitc
     #return n_meas, p_meas, meastimes, mitc    
-    
+"""    
 def process_Motti():
-    """
-    Constructs a dict variable having dimensions Municipality/Site fertility (1...6)/Soiltype (mineral/peat)/species
-    picks Motti simulations (saved in xls format) from given folder and locates age, height, and yield to dict named 'motti'.
-    Saves lat, lon, and temp sum.
-    Fits s-shaped Schumacher model to h(a), and y(a), and saves the parameter values to the dict
-    Saves the dict 'motti' to picke file
-    """
+    
+    #Constructs a dict variable having dimensions Municipality/Site fertility (1...6)/Soiltype (mineral/peat)/species
+    #picks Motti simulations (saved in xls format) from given folder and locates age, height, and yield to dict named 'motti'.
+    #Saves lat, lon, and temp sum.
+    #Fits s-shaped Schumacher model to h(a), and y(a), and saves the parameter values to the dict
+    #Saves the dict 'motti' to picke file
+    
     #******* Input **********
     folder ='C:\\Apps\\WinPython-64bit-2.7.10.3\\SAMULI_ARI\\Motti\\'
     fi = 'Stands.xlsx'   #contains the list of motti-files and the relevant metadata
@@ -204,6 +204,7 @@ def process_Motti():
     fp.close()
 
 """
+
 def get_measured():
     #Retrieves measured datasets from Web database. 
     
