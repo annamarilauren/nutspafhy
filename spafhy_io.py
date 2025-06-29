@@ -81,7 +81,7 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     lon0 = np.arange(pos[0], pos[0] + cellsize*ncols, cellsize)
     lat0 = np.arange(pos[1], pos[1] + cellsize*nrows, cellsize)
     lat0 = np.flipud(lat0)  # why this is needed to get coordinates correct when plotting?
-    # catchment mask cmask ==1, np.NaN outside
+    # catchment mask cmask ==1, np.nan outside
     cmask = dem.copy()
     cmask[np.isfinite(cmask)] = 1.0
     # flowacc, D-infinity, nr of draining cells
@@ -140,10 +140,10 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     stream[ix] = 1.0
     
     # update catchment mask so that water bodies are left out (SL 20.2.18)
-    #cmask[soil == -1.0] = np.NaN
+    #cmask[soil == -1.0] = np.nan
     
     #Warn, remove this
-    cmask[soil <= 0] = np.NaN
+    cmask[soil <= 0] = np.nan
 
     soil = soil * cmask
     
@@ -156,10 +156,10 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     ix_n = np.where((vol >= 32727) | (vol == -9999) )  # no satellite cover or not forest land: assign arbitrary values 
     ix_p = np.where((vol >= 32727) & (peatm == 1))  # open peatlands: assign arbitrary values
     ix_w = np.where((vol >= 32727) & (stream == 1))  # waterbodies: leave out
-    cmask[ix_w] = np.NaN  # NOTE: leaves waterbodies out of catchment mask
+    cmask[ix_w] = np.nan  # NOTE: leaves waterbodies out of catchment mask
     vol[ix_n] = nofor['vol']
     vol[ix_p] = opeatl['vol']
-    vol[ix_w] = np.NaN
+    vol[ix_w] = np.nan
 
     #pine volume [m3 ha-1]
     p_vol, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname +'manty.asc'))
@@ -176,21 +176,21 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     ba, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'ppa.asc') )
     ba[ix_n] = nofor['ba']
     ba[ix_p] = opeatl['ba']
-    ba[ix_w] = np.NaN
+    ba[ix_w] = np.nan
 
     # tree height [m]
     height, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'keskipituus.asc'))
     height = 0.1*height  # m
     height[ix_n] = nofor['height']
     height[ix_p] = opeatl['height']
-    height[ix_w] = np.NaN
+    height[ix_w] = np.nan
 
     # canopy closure [-]    
     cf, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'latvuspeitto.asc'))
     cf = 1e-2*cf
     cf[ix_n] = nofor['cf']
     cf[ix_p] = opeatl['cf']
-    cf[ix_w] = np.NaN
+    cf[ix_w] = np.nan
     # cfd, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'lehtip_latvuspeitto.asc'))
     # cfd = 1e-2*cfd  # percent to fraction
 
@@ -198,28 +198,28 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     age, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname+'ika.asc'))
     age[ix_n] = nofor['age']
     age[ix_p] = opeatl['age']
-    age[ix_w] = np.NaN
+    age[ix_w] = np.nan
 
     # leaf biomasses and one-sided LAI
     bmleaf_pine, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_manty_neulaset.asc'))
     bmleaf_spruce, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_kuusi_neulaset.asc'))
     bmleaf_decid, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_lehtip_neulaset.asc'))
-    # bmleaf_pine[ix_n]=np.NaN; bmleaf_spruce[ix_n]=np.NaN; bmleaf_decid[ix_n]=np.NaN;
+    # bmleaf_pine[ix_n]=np.nan; bmleaf_spruce[ix_n]=np.nan; bmleaf_decid[ix_n]=np.nan;
 
     LAI_pine = 1e-3*bmleaf_pine*SLA['pine']  # 1e-3 converts 10kg/ha to kg/m2
     LAI_pine[ix_n] = nofor['LAIpine']
     LAI_pine[ix_p] = opeatl['LAIpine']
-    LAI_pine[ix_w] = np.NaN
+    LAI_pine[ix_w] = np.nan
 
     LAI_spruce = 1e-3*bmleaf_spruce*SLA['spruce']
     LAI_spruce[ix_n] = nofor['LAIspruce']
     LAI_spruce[ix_p] = opeatl['LAIspruce']
-    LAI_spruce[ix_w] = np.NaN
+    LAI_spruce[ix_w] = np.nan
 
     LAI_decid = 1e-3*bmleaf_decid*SLA['decid']
     LAI_decid[ix_n] = nofor['LAIdecid']
     LAI_decid[ix_p] = opeatl['LAIdecid']
-    LAI_decid[ix_w] = np.NaN
+    LAI_decid[ix_w] = np.nan
 
     bmroot_pine, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_manty_juuret.asc'))
     bmroot_spruce, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_kuusi_juuret.asc'))
@@ -227,7 +227,7 @@ def create_catchment(pgen, fpath, plotgrids=False, plotdistr=False):
     bmroot = 1e-2*(bmroot_pine + bmroot_spruce + bmroot_decid)  # 1000 kg/ha
     bmroot[ix_n] = nofor['bmroot']
     bmroot[ix_p] = opeatl['bmroot']
-    bmroot[ix_w] = np.NaN
+    bmroot[ix_w] = np.nan
     # site types
     maintype, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'paatyyppi.asc'))
     maintype = maintype*cmask
@@ -384,7 +384,7 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     lon0 = np.arange(pos[0], pos[0] + cellsize*ncols, cellsize)
     lat0 = np.arange(pos[1], pos[1] + cellsize*nrows, cellsize)
     lat0 = np.flipud(lat0)  # why this is needed to get coordinates correct when plotting?
-    # catchment mask cmask ==1, np.NaN outside
+    # catchment mask cmask ==1, np.nan outside
     cmask = dem.copy()
     cmask[np.isfinite(cmask)] = 1.0
     # flowacc, D-infinity, nr of draining cells
@@ -440,8 +440,8 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     stream[ix] = 1.0
     
     # update catchment mask so that water bodies are left out (SL 20.2.18)
-    #cmask[soil == -1.0] = np.NaN
-    cmask[soil <= 0] = np.NaN
+    #cmask[soil == -1.0] = np.nan
+    cmask[soil <= 0] = np.nan
 
     soil = soil * cmask
     
@@ -454,10 +454,10 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     ix_n = np.where((vol >= 32727) | (vol == -9999) )  # no satellite cover or not forest land: assign arbitrary values 
     ix_p = np.where((vol >= 32727) & (peatm == 1))  # open peatlands: assign arbitrary values
     ix_w = np.where((vol >= 32727) & (stream == 1))  # waterbodies: leave out
-    cmask[ix_w] = np.NaN  # NOTE: leaves waterbodies out of catchment mask
+    cmask[ix_w] = np.nan  # NOTE: leaves waterbodies out of catchment mask
     vol[ix_n] = nofor['vol']
     vol[ix_p] = opeatl['vol']
-    vol[ix_w] = np.NaN
+    vol[ix_w] = np.nan
 
     #pine volume [m3 ha-1]
     p_vol, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname +'manty.asc'))
@@ -474,21 +474,21 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     ba, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'ppa.asc') )
     ba[ix_n] = nofor['ba']
     ba[ix_p] = opeatl['ba']
-    ba[ix_w] = np.NaN
+    ba[ix_w] = np.nan
 
     # tree height [m]
     height, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'keskipituus.asc'))
     height = 0.1*height  # m
     height[ix_n] = nofor['height']
     height[ix_p] = opeatl['height']
-    height[ix_w] = np.NaN
+    height[ix_w] = np.nan
 
     # canopy closure [-]    
     cf, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'latvuspeitto.asc'))
     cf = 1e-2*cf
     cf[ix_n] = nofor['cf']
     cf[ix_p] = opeatl['cf']
-    cf[ix_w] = np.NaN
+    cf[ix_w] = np.nan
     # cfd, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'lehtip_latvuspeitto.asc'))
     # cfd = 1e-2*cfd  # percent to fraction
 
@@ -496,28 +496,28 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     age, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname+'ika.asc'))
     age[ix_n] = nofor['age']
     age[ix_p] = opeatl['age']
-    age[ix_w] = np.NaN
+    age[ix_w] = np.nan
 
     # leaf biomasses and one-sided LAI
     bmleaf_pine, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_manty_neulaset.asc'))
     bmleaf_spruce, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_kuusi_neulaset.asc'))
     bmleaf_decid, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_lehtip_neulaset.asc'))
-    # bmleaf_pine[ix_n]=np.NaN; bmleaf_spruce[ix_n]=np.NaN; bmleaf_decid[ix_n]=np.NaN;
+    # bmleaf_pine[ix_n]=np.nan; bmleaf_spruce[ix_n]=np.nan; bmleaf_decid[ix_n]=np.nan;
 
     LAI_pine = 1e-3*bmleaf_pine*SLA['pine']  # 1e-3 converts 10kg/ha to kg/m2
     LAI_pine[ix_n] = nofor['LAIpine']
     LAI_pine[ix_p] = opeatl['LAIpine']
-    LAI_pine[ix_w] = np.NaN
+    LAI_pine[ix_w] = np.nan
 
     LAI_spruce = 1e-3*bmleaf_spruce*SLA['spruce']
     LAI_spruce[ix_n] = nofor['LAIspruce']
     LAI_spruce[ix_p] = opeatl['LAIspruce']
-    LAI_spruce[ix_w] = np.NaN
+    LAI_spruce[ix_w] = np.nan
 
     LAI_decid = 1e-3*bmleaf_decid*SLA['decid']
     LAI_decid[ix_n] = nofor['LAIdecid']
     LAI_decid[ix_p] = opeatl['LAIdecid']
-    LAI_decid[ix_w] = np.NaN
+    LAI_decid[ix_w] = np.nan
 
     bmroot_pine, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_manty_juuret.asc'))
     bmroot_spruce, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'bm_kuusi_juuret.asc'))
@@ -525,7 +525,7 @@ def create_catchment_bck(pgen, fpath, plotgrids=False, plotdistr=False):
     bmroot = 1e-2*(bmroot_pine + bmroot_spruce + bmroot_decid)  # 1000 kg/ha
     bmroot[ix_n] = nofor['bmroot']
     bmroot[ix_p] = opeatl['bmroot']
-    bmroot[ix_w] = np.NaN
+    bmroot[ix_w] = np.nan
     # site types
     maintype, _, _, _, _ = read_AsciiGrid(os.path.join(fpath, bname + 'paatyyppi.asc'))
     maintype = maintype*cmask
@@ -705,8 +705,8 @@ def read_AsciiGrid(fname, setnans=True):
     data = np.loadtxt(fname, skiprows=6)
 
     if setnans is True:
-        data[data == nodata] = np.NaN
-        nodata = np.NaN
+        data[data == nodata] = np.nan
+        nodata = np.nan
     return data, info, (xloc, yloc), cellsize, nodata
 
 
@@ -753,7 +753,7 @@ def matrix_to_array(x, nodata=None):
 def array_to_matrix(y, ix, s, nodata=None):
     """returns 1d array reshaped into 2d array x of shape s"""
     if nodata is None:
-        x = np.ones(s)*np.NaN
+        x = np.ones(s)*np.nan
     else:
         x = np.ones(s)*nodata
     x[ix] = y
@@ -884,7 +884,7 @@ def create_vihti_catchment(ID='Vihti', fpath='c:\\projects\\fotetraf\\spathy\\da
     lat0=np.arange(pos[1], pos[1]+cellsize*nrows,cellsize)
     lat0=np.flipud(lat0) #why this is needed to get coordinates correct when plotting?
 
-    #catchment mask cmask ==1, np.NaN outside
+    #catchment mask cmask ==1, np.nan outside
     cmask=dem.copy(); cmask[np.isfinite(cmask)]=1.0
     
     #flowacc, D-infinity, nr of draining cells
@@ -898,11 +898,11 @@ def create_vihti_catchment(ID='Vihti', fpath='c:\\projects\\fotetraf\\spathy\\da
     
     #Maastotietokanta water bodies: 1=waterbody
     stream, _, _, _, _ = read_AsciiGrid(fpath +'vesielementit_1_0.asc')
-    stream[stream == 0.0] = np.NaN
+    stream[stream == 0.0] = np.nan
     stream[np.isfinite(stream)]=1.0    
     #maastotietokanta peatlandmask
     #peatm, _, _, _, _ = read_AsciiGrid(fpath + 'suo_mtk.asc')
-    peatm = np.ones([nrows, ncols])*np.NaN
+    peatm = np.ones([nrows, ncols])*np.nan
     #peatm[np.isfinite(peatm)]=1.0   
     #maastotietokanta kalliomaski
     #rockm, _, _, _, _ = read_AsciiGrid(fpath +'kallioalue_mtk.asc')
@@ -918,49 +918,49 @@ def create_vihti_catchment(ID='Vihti', fpath='c:\\projects\\fotetraf\\spathy\\da
     ix_n=np.where((vol>=32727) | (vol==-9999) ) #no satellite cover or not forest land: assign arbitrary values 
     ix_p=np.where((vol>=32727) & (peatm==1))#open peatlands: assign arbitrary values
     ix_w=np.where((vol>=32727) & (stream==1)) #waterbodies: leave out
-    cmask[ix_w]=np.NaN #*********** NOTE: leave waterbodies out of catchment mask !!!!!!!!!!!!!!!!!!!!!!
-    vol[ix_n]=nofor['vol']; vol[ix_p]=opeatl['vol']; vol[ix_w]=np.NaN
+    cmask[ix_w]=np.nan #*********** NOTE: leave waterbodies out of catchment mask !!!!!!!!!!!!!!!!!!!!!!
+    vol[ix_n]=nofor['vol']; vol[ix_p]=opeatl['vol']; vol[ix_w]=np.nan
     #basal area [m2 ha-1]
     ba, _, _, _, _ = read_AsciiGrid(fpath +'ppa.asc') 
-    ba[ix_n]=nofor['ba']; ba[ix_p]=opeatl['ba']; ba[ix_w]=np.NaN
+    ba[ix_n]=nofor['ba']; ba[ix_p]=opeatl['ba']; ba[ix_w]=np.nan
     
    #tree height [m]
     height, _, _, _, _ = read_AsciiGrid(fpath +'keskipituus.asc')
     height=0.1*height #m  
-    height[ix_n]=nofor['height']; height[ix_p]=opeatl['height']; height[ix_w]=np.NaN
+    height[ix_n]=nofor['height']; height[ix_p]=opeatl['height']; height[ix_w]=np.nan
     
     #canopy closure [-]    
     cf, _, _, _, _ = read_AsciiGrid(fpath +'latvuspeitto.asc')   
     cfd, _, _, _, _ = read_AsciiGrid(fpath +'lehtip_latvuspeitto.asc')
     cf=1e-2*cf; cfd=1e-2*cfd; #in fraction
-    cf[ix_n]=nofor['cf']; cf[ix_p]=opeatl['cf']; cf[ix_w]=np.NaN
+    cf[ix_n]=nofor['cf']; cf[ix_p]=opeatl['cf']; cf[ix_w]=np.nan
     
     #stand age [yrs]
     age, _, _, _, _ = read_AsciiGrid(fpath +'ika.asc')
-    age[ix_n]=nofor['age']; age[ix_p]=opeatl['age']; age[ix_w]=np.NaN
+    age[ix_n]=nofor['age']; age[ix_p]=opeatl['age']; age[ix_w]=np.nan
     
     #leaf biomasses and one-sided LAI
     bmleaf_pine, _, _, _, _ = read_AsciiGrid(fpath +'bm_manty_neulaset.asc')
     bmleaf_spruce, _, _, _, _ = read_AsciiGrid(fpath +'bm_kuusi_neulaset.asc')
     bmleaf_decid, _, _, _, _ = read_AsciiGrid(fpath +'bm_lehtip_neulaset.asc')
-   # bmleaf_pine[ix_n]=np.NaN; bmleaf_spruce[ix_n]=np.NaN; bmleaf_decid[ix_n]=np.NaN;
+   # bmleaf_pine[ix_n]=np.nan; bmleaf_spruce[ix_n]=np.nan; bmleaf_decid[ix_n]=np.nan;
     
     LAI_pine=1e-3*bmleaf_pine*SLA['pine'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_pine[ix_n]=nofor['LAIpine']; LAI_pine[ix_p]=opeatl['LAIpine']; age[ix_w]=np.NaN
+    LAI_pine[ix_n]=nofor['LAIpine']; LAI_pine[ix_p]=opeatl['LAIpine']; age[ix_w]=np.nan
     
     LAI_spruce=1e-3*bmleaf_spruce*SLA['spruce'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_spruce[ix_n]=nofor['LAIspruce']; LAI_spruce[ix_p]=opeatl['LAIspruce']; age[ix_w]=np.NaN
+    LAI_spruce[ix_n]=nofor['LAIspruce']; LAI_spruce[ix_p]=opeatl['LAIspruce']; age[ix_w]=np.nan
     
     LAI_conif = LAI_spruce + LAI_pine
     
     LAI_decid=1e-3*bmleaf_decid*SLA['decid'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_decid[ix_n]=nofor['LAIdecid']; LAI_decid[ix_p]=opeatl['LAIdecid']; age[ix_w]=np.NaN        
+    LAI_decid[ix_n]=nofor['LAIdecid']; LAI_decid[ix_p]=opeatl['LAIdecid']; age[ix_w]=np.nan        
     
     bmroot_pine, _, _, _, _ = read_AsciiGrid(fpath +'bm_manty_juuret.asc')
     bmroot_spruce, _, _, _, _ = read_AsciiGrid(fpath +'bm_kuusi_juuret.asc')
     bmroot_decid, _, _, _, _ = read_AsciiGrid(fpath +'bm_lehtip_juuret.asc')         
     bmroot=1e-2*(bmroot_pine + bmroot_spruce + bmroot_decid) #1000 kg/ha 
-    bmroot[ix_n]=nofor['bmroot']; bmroot[ix_p]=opeatl['bmroot']; age[ix_w]=np.NaN    
+    bmroot[ix_n]=nofor['bmroot']; bmroot[ix_p]=opeatl['bmroot']; age[ix_w]=np.nan    
     
     """
     gtk soilmap: read and re-classify into 4 texture classes
@@ -992,8 +992,8 @@ def create_vihti_catchment(ID='Vihti', fpath='c:\\projects\\fotetraf\\spathy\\da
     stream[ix]=1.0     
 
     # update catchment mask so that water bodies are left out (SL 20.2.18)
-    #cmask[soil == -1.0] = np.NaN
-    cmask[soil <= 0] = np.NaN
+    #cmask[soil == -1.0] = np.nan
+    cmask[soil <= 0] = np.nan
     soil = soil * cmask
     
     #catchment outlet location
@@ -1099,7 +1099,7 @@ def create_kuru_catchment(ID='Kuru', fpath=None, plotgrids=False, plotdistr=Fals
     lat0=np.arange(pos[1], pos[1]+cellsize*nrows,cellsize)
     lat0=np.flipud(lat0) #why this is needed to get coordinates correct when plotting?
 
-    #catchment mask cmask ==1, np.NaN outside
+    #catchment mask cmask ==1, np.nan outside
     cmask=dem.copy(); cmask[np.isfinite(cmask)]=1.0
     
     #flowacc, D-infinity, nr of draining cells
@@ -1113,11 +1113,11 @@ def create_kuru_catchment(ID='Kuru', fpath=None, plotgrids=False, plotdistr=Fals
     
     #Maastotietokanta water bodies: 1=waterbody
     stream, _, _, _, _ = read_AsciiGrid(fpath +'vesielementit.asc')
-    stream[stream == 0.0] = np.NaN
+    stream[stream == 0.0] = np.nan
     stream[np.isfinite(stream)]=1.0    
     #maastotietokanta peatlandmask
     #peatm, _, _, _, _ = read_AsciiGrid(fpath + 'suo_mtk.asc')
-    peatm = np.ones([nrows, ncols])*np.NaN
+    peatm = np.ones([nrows, ncols])*np.nan
     #peatm[np.isfinite(peatm)]=1.0   
     #maastotietokanta kalliomaski
     rockm, _, _, _, _ = read_AsciiGrid(fpath +'kallioalue_16m.asc')
@@ -1133,49 +1133,49 @@ def create_kuru_catchment(ID='Kuru', fpath=None, plotgrids=False, plotdistr=Fals
     ix_n=np.where((vol>=32727) | (vol==-9999) ) #no satellite cover or not forest land: assign arbitrary values 
     ix_p=np.where((vol>=32727) & (peatm==1))#open peatlands: assign arbitrary values
     ix_w=np.where((vol>=32727) & (stream==1)) #waterbodies: leave out
-    cmask[ix_w]=np.NaN #*********** NOTE: leave waterbodies out of catchment mask !!!!!!!!!!!!!!!!!!!!!!
-    vol[ix_n]=nofor['vol']; vol[ix_p]=opeatl['vol']; vol[ix_w]=np.NaN
+    cmask[ix_w]=np.nan #*********** NOTE: leave waterbodies out of catchment mask !!!!!!!!!!!!!!!!!!!!!!
+    vol[ix_n]=nofor['vol']; vol[ix_p]=opeatl['vol']; vol[ix_w]=np.nan
     #basal area [m2 ha-1]
     ba, _, _, _, _ = read_AsciiGrid(fpath +'ppa.asc') 
-    ba[ix_n]=nofor['ba']; ba[ix_p]=opeatl['ba']; ba[ix_w]=np.NaN
+    ba[ix_n]=nofor['ba']; ba[ix_p]=opeatl['ba']; ba[ix_w]=np.nan
     
    #tree height [m]
     height, _, _, _, _ = read_AsciiGrid(fpath +'keskipituus.asc')
     height=0.1*height #m  
-    height[ix_n]=nofor['height']; height[ix_p]=opeatl['height']; height[ix_w]=np.NaN
+    height[ix_n]=nofor['height']; height[ix_p]=opeatl['height']; height[ix_w]=np.nan
     
     #canopy closure [-]    
     cf, _, _, _, _ = read_AsciiGrid(fpath +'latvuspeitto.asc')   
     cfd, _, _, _, _ = read_AsciiGrid(fpath +'lehtip_latvuspeitto.asc')
     cf=1e-2*cf; cfd=1e-2*cfd; #in fraction
-    cf[ix_n]=nofor['cf']; cf[ix_p]=opeatl['cf']; cf[ix_w]=np.NaN
+    cf[ix_n]=nofor['cf']; cf[ix_p]=opeatl['cf']; cf[ix_w]=np.nan
     
     #stand age [yrs]
     age, _, _, _, _ = read_AsciiGrid(fpath +'ika.asc')
-    age[ix_n]=nofor['age']; age[ix_p]=opeatl['age']; age[ix_w]=np.NaN
+    age[ix_n]=nofor['age']; age[ix_p]=opeatl['age']; age[ix_w]=np.nan
     
     #leaf biomasses and one-sided LAI
     bmleaf_pine, _, _, _, _ = read_AsciiGrid(fpath +'bm_manty_neulaset.asc')
     bmleaf_spruce, _, _, _, _ = read_AsciiGrid(fpath +'bm_kuusi_neulaset.asc')
     bmleaf_decid, _, _, _, _ = read_AsciiGrid(fpath +'bm_lehtip_neulaset.asc')
-   # bmleaf_pine[ix_n]=np.NaN; bmleaf_spruce[ix_n]=np.NaN; bmleaf_decid[ix_n]=np.NaN;
+   # bmleaf_pine[ix_n]=np.nan; bmleaf_spruce[ix_n]=np.nan; bmleaf_decid[ix_n]=np.nan;
     
     LAI_pine=1e-3*bmleaf_pine*SLA['pine'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_pine[ix_n]=nofor['LAIpine']; LAI_pine[ix_p]=opeatl['LAIpine']; age[ix_w]=np.NaN
+    LAI_pine[ix_n]=nofor['LAIpine']; LAI_pine[ix_p]=opeatl['LAIpine']; age[ix_w]=np.nan
     
     LAI_spruce=1e-3*bmleaf_spruce*SLA['spruce'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_spruce[ix_n]=nofor['LAIspruce']; LAI_spruce[ix_p]=opeatl['LAIspruce']; age[ix_w]=np.NaN
+    LAI_spruce[ix_n]=nofor['LAIspruce']; LAI_spruce[ix_p]=opeatl['LAIspruce']; age[ix_w]=np.nan
     
     LAI_conif = LAI_spruce + LAI_pine
     
     LAI_decid=1e-3*bmleaf_decid*SLA['decid'] #1e-3 converts 10kg/ha to kg/m2
-    LAI_decid[ix_n]=nofor['LAIdecid']; LAI_decid[ix_p]=opeatl['LAIdecid']; age[ix_w]=np.NaN        
+    LAI_decid[ix_n]=nofor['LAIdecid']; LAI_decid[ix_p]=opeatl['LAIdecid']; age[ix_w]=np.nan        
     
     bmroot_pine, _, _, _, _ = read_AsciiGrid(fpath +'bm_manty_juuret.asc')
     bmroot_spruce, _, _, _, _ = read_AsciiGrid(fpath +'bm_kuusi_juuret.asc')
     bmroot_decid, _, _, _, _ = read_AsciiGrid(fpath +'bm_lehtip_juuret.asc')         
     bmroot=1e-2*(bmroot_pine + bmroot_spruce + bmroot_decid) #1000 kg/ha 
-    bmroot[ix_n]=nofor['bmroot']; bmroot[ix_p]=opeatl['bmroot']; age[ix_w]=np.NaN    
+    bmroot[ix_n]=nofor['bmroot']; bmroot[ix_p]=opeatl['bmroot']; age[ix_w]=np.nan    
     
     """
     gtk soilmap: read and re-classify into 4 texture classes
@@ -1207,8 +1207,8 @@ def create_kuru_catchment(ID='Kuru', fpath=None, plotgrids=False, plotdistr=Fals
     stream[ix]=1.0     
     
     # update catchment mask so that water bodies are left out (SL 20.2.18)
-    #cmask[soil == -1.0] = np.NaN
-    cmask[soil <= 0] = np.NaN
+    #cmask[soil == -1.0] = np.nan
+    cmask[soil <= 0] = np.nan
     soil = soil * cmask
 
     #catchment outlet location
@@ -1413,7 +1413,7 @@ def read_SVE_runoff(ID, start_date,end_date, sourcefile):
             columns: measured runoff (mm/d)
             if ID=str, then column is 'Qm'
             if ID = list of str, then column is catchment ID
-            MISSING DATA = np.NaN
+            MISSING DATA = np.nan
     CODE: Samuli Launiainen (Luke, 7.2.2017)
     """
     # Runoffs compiled from Hertta-database (Syke) and Metla/Luke old observations.
@@ -1700,7 +1700,7 @@ def get_clear_cuts(pgen, cmask):
         cut = cmask.copy()
         ix = np.where(np.isfinite(cmask)) 
         cut2 = cut[ix].copy()
-        cut2[:] = np.NaN
+        cut2[:] = np.nan
         clear_cuts[key]=cut2.copy()
     return clear_cuts
 
