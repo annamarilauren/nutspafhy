@@ -8,6 +8,7 @@ Created on Thu Oct 19 10:21:51 2017
 import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
+import pickle
 from scipy import optimize
 #from scipy.misc import derivative
 #from scipy.optimize import derivative
