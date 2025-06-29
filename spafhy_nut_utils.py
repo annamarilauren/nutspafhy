@@ -9,8 +9,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
 from scipy import optimize
-from scipy.misc import derivative
-import pickle
+#from scipy.misc import derivative
+from scipy.optimize import derivative
 import xarray as xr
 #import Spathy_resp as stand
 #import Spathy_utils
@@ -608,7 +608,7 @@ def wrc(pF, x=None, var=None):
         Th = Tr + (Ts-Tr)/(1+abs(alfa*x)**n)**m
         return Th           
  
-    if var is 'Th': y=theta_psi(x) #'Theta-->Psi'           
+    if var == 'Th': y=theta_psi(x) #'Theta-->Psi'           
     else: y=psi_theta(x) # 'Psi-->Theta'          
     return y
 
@@ -788,11 +788,16 @@ def estimate_imm(gisdata):
     conif_vol = np.nanmean(gisdata['p_vol']+gisdata['s_vol'])
     
     #these parameter values with corrected ground vegetation model 
-    iN_peat = 0.652 + 0.282*(conif_vol/vol) - 0.15*bog_p        #R2 0.607
-    iN_miner = 0.894 + 0.284*poor_min                           #R2 0.301
-    iP_peat = 0.888                                             #average over the data
-    iP_miner = 0.905                                            #average over the data
+    iN_peat = 0.659 + 0.285*(conif_vol/vol) - 0.129*bog_p       
+    iN_miner = 0.904 + 0.325*poor_min                           
+    iP_peat = 0.864                                             
+    iP_miner = 0.551 +  0.349*(conif_vol/vol) +0.068*vol +0.372*poor_min      
     
+    # iN_peat = 0.652 + 0.282*(conif_vol/vol) - 0.15*bog_p        #R2 0.607
+    # iN_miner = 0.894 + 0.284*poor_min                           #R2 0.301
+    # iP_peat = 0.888                                             #average over the data
+    # iP_miner = 0.905                                            #average over the data
+        
     #iN_peat = 0.559 - 0.241*bog_p + 0.400*(conif_vol/vol) + 0.024*vol/100.  #R2 0.91
     #iN_miner = 0.671 - 0.199*bog_p + 0.307*(conif_vol/vol)+ 0.017*vol/100.   #R2 0.88
     #iP_peat = 0.954 - 2.673*rich_p    #R2 0.39     

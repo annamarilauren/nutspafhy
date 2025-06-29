@@ -603,9 +603,9 @@ def penman_monteith(AE, D, T, Gs, Ga, P=101300.0, units='W'):
 
     x = (s * AE + rho * cp * Ga * D) / (s + g * (1.0 + Ga / Gs))  # Wm-2
 
-    if units is 'mm':
+    if units == 'mm':
         x = x / L  # kgm-2s-1 = mms-1
-    if units is 'mol':
+    if units == 'mol':
         x = x / L / Mw  # mol m-2 s-1
 
     x = np.maximum(x, 0.0)

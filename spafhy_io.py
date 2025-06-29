@@ -1498,7 +1498,7 @@ def vdataQuery(alue, alku, loppu, kysely, fname=None):
     g.close()
     
     #read  'tmp.txt' back to dataframe
-    if kysely is 'annual': #annual query has different format
+    if kysely == 'annual': #annual query has different format
         dat=pd.read_csv(ou)
         f=dat['v_alue_metodi']
         yr=[]; alue=[]; mtd=[]        
@@ -1515,7 +1515,7 @@ def vdataQuery(alue, alku, loppu, kysely, fname=None):
         dat.index=dat.index.to_datetime() #convert to datetime
     
     
-    if kysely is 'wlevel': #manipulate column names
+    if kysely == 'wlevel': #manipulate column names
         cols=list(dat.columns.values)
         h=[]  
         for item in cols:

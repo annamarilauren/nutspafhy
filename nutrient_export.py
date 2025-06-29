@@ -67,8 +67,7 @@ class Export():
         self.catchment_ix = np.transpose(self.catchment_ix)
         b = np.full( self.gridshape, np.NaN)
         b[np.array(self.catchment_ix[0]),np.array(self.catchment_ix[1])] = min_dist_ix    # tells the index where to fond the stream node in the 2d distance array (index 0)
-        
-          
+                  
         layer_ix = (b[np.where(np.isfinite(b))].astype('int32'))
         receiving_node = np.transpose(stream_ix[layer_ix])
         receiving_ele =dem[receiving_node[0],receiving_node[1]]
