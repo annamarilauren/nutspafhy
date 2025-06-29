@@ -763,7 +763,7 @@ def nutBalance(sto, up_s, up_gv, rel):
 
 def nConc(cmask, D, Wliq, nsto):
     c=np.empty(np.shape(cmask))
-    c[:,:] = np.NaN
+    c[:,:] = np.nan
     ix = np.isfinite(cmask)
     c[ix] = (nsto[ix]*1e6) / (Wliq[ix] * D[ix] * 1e4 *1e3) #mg/l
     return c

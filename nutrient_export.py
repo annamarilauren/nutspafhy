@@ -65,17 +65,17 @@ class Export():
         min_dist_ix = np.argmin(dist, axis=0)                                  # layer from where the minimum distance cell can be found                
         dist_2 = np.min(dist, axis=0)                                          # finding the minimum distance value, shrinking dimensions to catchmet's
         self.catchment_ix = np.transpose(self.catchment_ix)
-        b = np.full( self.gridshape, np.NaN)
+        b = np.full( self.gridshape, np.nan)
         b[np.array(self.catchment_ix[0]),np.array(self.catchment_ix[1])] = min_dist_ix    # tells the index where to fond the stream node in the 2d distance array (index 0)
                   
         layer_ix = (b[np.where(np.isfinite(b))].astype('int32'))
         receiving_node = np.transpose(stream_ix[layer_ix])
         receiving_ele =dem[receiving_node[0],receiving_node[1]]
-        c = np.full(self.gridshape, np.NaN)
+        c = np.full(self.gridshape, np.nan)
         c[np.array(self.catchment_ix[0]),np.array(self.catchment_ix[1])] = receiving_ele - stream_depth  # elevation of the receiving stream node for all  grid points, m 
         #slope = np.maximum((dem-c)/self.dsdist, 0.001)                         # slope using delta h and downslope distance
         
-        a = np.full(self.gridshape, np.NaN)
+        a = np.full(self.gridshape, np.nan)
         dist_2 = np.ravel(dist_2)                                              # euclidean distance to nearest stream node, unit here pixels
 
         a[np.array(self.catchment_ix[0]),np.array(self.catchment_ix[1])] = dist_2*self.cellsize  # distance to nearest stream node, m
