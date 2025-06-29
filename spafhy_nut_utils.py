@@ -220,7 +220,7 @@ def get_measured():
 
 
     dat=stand.vdataQuery(3,start_date, end_date,'dload')
-"""
+
 def make_video(outvid, images, outimg=None, fps=2, size=None,
                is_color=True, format="XVID"):
     """ 
